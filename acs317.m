@@ -20,39 +20,41 @@ sslabsc;    % Initialise Simulation Model
 % 2) State-space model and analysis.
 % Uncomment the lines below to define the state-space matrices and create
 % the state-space system in matlab
-% A = [ ? ? ? ?
-%       ? ? ? ?
-%       ? ? ? ?
-%       ? ? ? ?];    
-% B = [? ?
-%      ? ?
-%      ? ?
-%      ? ?];
-% C = [? ? ? ?
-%      ? ? ? ?
-%      ? ? ? ?];
-% D = [? ?
-%      ? ?
-%      ? ?];
-% sys = ss(?,?,?,?);  % Create state-space system
+A = [ 1.4, -0.2,  6.7, -5.7;
+     -0.6, -4.3,  0.0,  0.7;
+      1.1,  4.3, -6.7,  5.9;
+      0.0,  4.3,  1.3,  2.1 ];
+B = [0,0;
+    5.7,0;
+    1.1,-3.1;
+    1.1,0];
+
+C = [1,0,0,0;
+    0,1,0,0;
+    0,0,1,-1];
+
+D = zeros(3,2);
+sys = ss(A,B,C,D);  % Create state-space system
 
 % Stability analysis
 % Uncomment the line below and compute the eigenvalues of the A matrix
-% eig_A = eig(?);
+ eig_A = eig(A);
 % QUESTION: Is your modelled system stable or unstable?
-% ANSWER: STABLE/UNSTABLE (delete as appropriate)
+% ANSWER: STABLE (delete as appropriate)
+
+%%% AV ANSWER: System is unstable as there are positive elements of matrix
 
 % Reachability analysis
 % Uncomment the line below and compute the rank of the Reachability matrix
-% rank_Wr = rank(ctrb(?,?));
+ rank_Wr = rank(ctrb(sys));
 % QUESTION: Is your modelled system reachable or unreachable?
-% ANSWER: REACHABLE/UNREACHABLE (delete as appropriate)
+% ANSWER: REACHABLE (delete as appropriate)
 
 % Observability analysis
 % Uncomment the line below and compute the rank of the Observability matrix
-% rank_Wo = rank(obsv(?,?));
+rank_Wo = rank(obsv(sys));
 % QUESTION: Is your modelled system observable or unobservable?
-% ANSWER: OBSERVABLE/UNOBSERVABLE
+% ANSWER: OBSERVABLE
 
 %% Exercise 2 - State feedback and feedforward control
 
