@@ -15,6 +15,7 @@ sslabsc;    % Initialise Simulation Model
 %    QUESTION: Having run a step-response simulation of the open-loop
 %  Simulink system, what do you conclude about the stability of the system?
 %    ANSWER: STABLE/UNSTABLE (delete as appropriate)
+% AV ANSWER: System is unstable
 
 % 2) State-space model and analysis.
 % Uncomment the lines below to define the state-space matrices and create
