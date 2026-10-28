@@ -61,20 +61,24 @@ rank_Wo = rank(obsv(sys));
 % 1) State feedback gain K
 % Uncomment the lines below to specify the desired eigenvalues
 % and design a full state feedback control gain K
-% deseig = [?; ?; ?; ?];
-% K = place(?,?,?);
+deseig = [-1 + 0.4i; -1-0.4i; -2; -3];
+K = place(A,B,deseig);
 
 % Simulation
 % QUESTION: Having run a step-response simulation of the closed-loop
 %  Simulink system, what do you conclude about the stability of the system?
-% ANSWER: STABLE/UNSTABLE (delete as appropriate)
+% ANSWER: STABLE (delete as appropriate)
 
 % Analysis
 % Uncomment the line below and compute the eigenvalues of the closed-
 % loop dynamics matrix
-% eig_cl = eig(A-B*?);
+ eig_cl = eig(A-B*K);
+ fprintf("A Eigen Values \n")
+ disp(eig_A)
+ fprintf("\n CL Eigen Values \n ")
+ disp(eig_cl)
 % QUESTION: How are these eigenvalues different to those of A?
-% ANSWER: All eigenavlues have NEGATIVE/POSITIVE real part (delete as appropriate)
+% ANSWER: All eigenvalues have NEGATIVE real part (delete as appropriate)
 
 % 2) Feedforward gain kr
 % Uncomment the lines below to specify Cr and then compute kr
