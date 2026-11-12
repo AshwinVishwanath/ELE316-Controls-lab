@@ -40,7 +40,7 @@ sys = ss(A,B,C,D);  % Create state-space system
 % Uncomment the line below and compute the eigenvalues of the A matrix
  eig_A = eig(A);
 % QUESTION: Is your modelled system stable or unstable?
-% ANSWER: STABLE (delete as appropriate)
+% ANSWER: UNSTABLE (delete as appropriate)
 
 %%% AV ANSWER: System is unstable as there are positive elements of matrix
 
