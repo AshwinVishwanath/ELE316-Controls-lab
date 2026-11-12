@@ -130,13 +130,20 @@ eig_P = eig(P);
 
 % 2) Feedforward gain kr
 % Uncomment the line below and compute kr
-% kr = ?;
+% (kx and ku depend only on A, B and Cr, so only K changes here)
+kr = ku + K*kx;
 
 % Simulation
 % QUESTION: Do you agree with the following statement: The LQR controller
 % has a faster transient response (since the closed-loop poles are further
 % into the left-half plane), but steady-state error persists.
-% ANSWER: YES/NO (delete as appropriate)
+% ANSWER: YES
+% The LQR poles' slowest one is at -1.60 (vs -1 +/- 0.4i for pole placement), so
+% the response settles faster (~3.9 s vs ~7.6 s after the steps), at the
+% cost of some overshoot. kr is still designed from the model (A,B), so a
+% steady-state offset remains on the real plant: yr -> [0.94, 1.48] for
+% r = [1, 1.5]. It is smaller than with pole placement ([0.62, 1.46]), but
+% it is still not zero.
 
 % 3) Integral control
 % Uncomment the line below to define the new Qx matrix
