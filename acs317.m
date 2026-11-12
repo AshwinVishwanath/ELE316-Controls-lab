@@ -105,23 +105,28 @@ kr = ku + K*kx;   % Construct kr from kx,ku and K (2x2)
 % 1) LQR control
 % Uncomment the lines below to specify the penalty matrices and design a
 % state feedback gain K using the lqr command
-% Qx = ?;
-% rho = ?;
-% Qu = rho*?;
-% [K,P] = lqr(?,?,?);
+K_pp = K;    % keep the pole-placement gain from Exercise 2 for comparison
+Qx = C'*C;
+rho = 1;
+Qu = rho*eye(2);
+[K,P] = lqr(A,B,Qx,Qu);
 
 % Analysis
 % Uncomment the line below and compute the eigenvalues of the closed-
-% loop dynamics matrix 
-% eig_cl = eig(?);
+% loop dynamics matrix
+eig_cl = eig(A-B*K);
 
 % Analysis
-% Uncomment the line below and compute the eigenvalues of the solution, P, to the Algebraic Ricatti Equation for the LQR controller 
-% eig_P = eig(?);
+% Uncomment the line below and compute the eigenvalues of the solution, P, to the Algebraic Ricatti Equation for the LQR controller
+eig_P = eig(P);
 
 % Question: Is the solution to the LQR algebraic Riccati equation, P, a positive
 % definite matrix?
-% ANSWER: YES/NO (delete as appropriate)
+% ANSWER: YES
+% eig(P) = {0.0127, 0.0884, 0.1085, 1.957}: all strictly positive, so P is
+% positive definite. The closed-loop eigenvalues eig(A-BK) are
+% {-1.60, -2.77, -7.59, -8.96}: all in the left half-plane, so the LQR
+% closed loop is stable.
 
 % 2) Feedforward gain kr
 % Uncomment the line below and compute kr
