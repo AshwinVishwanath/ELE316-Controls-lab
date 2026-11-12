@@ -174,15 +174,20 @@ eig_cl_aug = eig(Aaug-Baug*Kaug); % Check all have -ve real parts for stability
 % 4) Implementation of integral control
 % Uncomment the lines below to extract K and ki from Kaug, and
 % re-synthesise feedforward controller kr
-% K = Kaug(:,?:?);
-% ki = -Kaug(:,?:?);
-% kr = ?;
+K = Kaug(:,1:n);           % state feedback part (2x4)
+ki = -Kaug(:,n+1:n+q);     % integral gain (2x2); Kaug = [K -ki]
+kr = ku + K*kx;            % re-synthesise feedforward with the new K
 
 % Simulation
 % QUESTION: Having run a step-response of the closed-loop Simulink model
 % with integral control, does the steady-state error between the
 % referenceinputs and reference outputs converge to zero?
-% ANSWER: YES (WITH A SMALL AMOUNT OF ERROR DUE TO PLANT/MODEL MISMATCH) / NO (delete as appropriate)
+% ANSWER: YES
+% yr -> [0.9997, 1.4996] at t = 10 s for r = [1, 1.5], and the error is
+% still shrinking towards zero (the slowest closed-loop pole is at -0.82).
+% The integrator keeps acting until r - yr = 0, so integral action removes
+% the offset that feedforward alone left behind, even though the plant
+% (Ao,Bo) differs from the model (A,B).
 
 %% Exercise 4 - Controller Tuning for Sustainability
 
