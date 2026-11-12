@@ -82,17 +82,23 @@ K = place(A,B,deseig);
 
 % 2) Feedforward gain kr
 % Uncomment the lines below to specify Cr and then compute kr
-% Cr = [? ? ? ?     % This is the sum of the top and bottom row of C (y1+y3)
-%       ? ? ? ?];   % ... and this is just the second row of C (y2) 
-% kxku = [A B; Cr zeros(?,?)]\[zeros(?,?); eye(?)];
-% kx = kxku(?:?,:);     % Extract kx from kxku
-% ku = kxku(?:?,:);     % Extract ku from kxku
-% kr = ?;   % Construct kr from kx,ku and K
+Cr = [1 0 1 -1     % This is the sum of the top and bottom row of C (y1+y3)
+      0 1 0  0];   % ... and this is just the second row of C (y2)
+n = size(A,1);  % number of states (4)
+m = size(B,2);  % number of inputs = number of controlled outputs (2)
+kxku = [A B; Cr zeros(m,m)]\[zeros(n,m); eye(m)];
+kx = kxku(1:n,:);       % Extract kx from kxku (4x2)
+ku = kxku(n+1:n+m,:);   % Extract ku from kxku (2x2)
+kr = ku + K*kx;   % Construct kr from kx,ku and K (2x2)
 
 % Simulation
 % QUESTION: Having run a step-response of the closed-loop Simulink model
 % with the feedforward controller, do you achieve offset-free tracking?
-% ANSWER: YES / NO (OWING TO THE MODELS NOT BEING THE SAME) (delete as appropriate)
+% ANSWER: NO (OWING TO THE MODELS NOT BEING THE SAME)
+% The outputs settle close to the references but with a small steady-state
+% offset. kr was designed from the identified model (A,B), but Simulink uses
+% the true plant (Ao,Bo in sslabsc.m), which differs slightly. Feedforward
+% has no feedback on the error, so it can't correct for model mismatch.
 
 %% Exercise 3 - Optimal control and Integral Control
 
