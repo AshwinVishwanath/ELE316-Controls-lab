@@ -147,25 +147,29 @@ kr = ku + K*kx;
 
 % 3) Integral control
 % Uncomment the line below to define the new Qx matrix
-% Qx = [? ? ? ? ? ?
-%       ? ? ? ? ? ?
-%       ? ? ? ? ? ?
-%       ? ? ? ? ? ?
-%       ? ? ? ? ? ?
-%       ? ? ? ? ? ?];
+w1 = 10; w2 = 10;   % weights on the integral-of-error states
+Qx = [1 0  0  0  0  0
+      0 1  0  0  0  0
+      0 0  1 -1  0  0
+      0 0 -1  1  0  0
+      0 0  0  0  w1 0
+      0 0  0  0  0  w2];   % = blkdiag(C'*C, diag([w1 w2]))
 
 % Uncomment the lines below to define the augmented system matrices and
 % augmented state-space model
-% Aaug = [A zeros(?,?); -Cr zeros(?,?)];
-% Baug = [B; zeros(?,?)];
-% Caug = [C zeros(?,?)];
-% Daug = D;
-% sys_aug = ss(?,?,?,?);
+q = size(Cr,1);     % number of controlled outputs (2)
+Aaug = [A zeros(n,q); -Cr zeros(q,q)];
+Baug = [B; zeros(q,m)];
+Caug = [C zeros(size(C,1),q)];
+Daug = D;
+sys_aug = ss(Aaug,Baug,Caug,Daug);
 
 % Uncomment the lines below to synthesise the LQR state feedback controller
 % for the augmented sytem and check stability of the augmented system
-% Kaug = lqr(?,?,?);
-% eig_cl_aug = eig(?); % Check all have -ve real parts for stability
+Kaug = lqr(Aaug,Baug,Qx,Qu);
+eig_cl_aug = eig(Aaug-Baug*Kaug); % Check all have -ve real parts for stability
+% RESULT: eig_cl_aug = {-8.91, -7.16, -3.12, -2.25 +/- 1.24i, -0.82}: all
+% have negative real parts, so the augmented closed loop is stable.
 
 % 4) Implementation of integral control
 % Uncomment the lines below to extract K and ki from Kaug, and
